@@ -93,6 +93,205 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('isPlaceholderVisible', () => {
+    let propsData
+
+    beforeEach(() => {
+      propsData = {
+        value: ['1', '2'],
+        options: ['1', '2', '3'],
+        multiple: true,
+        isOpen: false,
+        searchable: false
+      }
+    })
+
+    describe('when forcePlaceHolderVisible == TRUE', () => {
+      test('should return true', () => {
+        const wrapper = shallowMount(Multiselect, {
+          propsData: { ...propsData, forcePlaceHolderVisible: true }
+        })
+
+        expect(wrapper.vm.isPlaceholderVisible).toEqual(true)
+      })
+    })
+
+    describe('when forcePlaceHolderVisible == FALSE', () => {
+      describe('when value selected', () => {
+        beforeEach(() => {
+          propsData = {
+            ...propsData,
+            value: ['1', '2'],
+            forcePlaceHolderVisible: false
+          }
+        })
+
+
+        describe('when isOpen == FALSE', () => {
+          describe('when searchable == FALSE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: false,
+                searchable: false
+              }
+            })
+
+            test('should return false', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: false })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(false)
+            })
+          })
+
+          describe('when searchable == TRUE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: false,
+                searchable: true
+              }
+            })
+
+            test('should return false', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: false })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(false)
+            })
+          })
+        })
+
+        describe('when isOpen == TRUE', () => {
+          describe('when searchable == FALSE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: true,
+                searchable: false
+              }
+            })
+
+            test('should return false', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: true })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(false)
+            })
+          })
+
+          describe('when searchable == TRUE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: true,
+                searchable: true
+              }
+            })
+
+            test('should return false', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: true })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(false)
+            })
+          })
+        })
+      })
+
+      describe('when no value selected', () => {
+        beforeEach(() => {
+          propsData = {
+            ...propsData,
+            value: [],
+            forcePlaceHolderVisible: false
+          }
+        })
+
+        describe('when isOpen == FALSE', () => {
+          describe('when searchable == FALSE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: false,
+                searchable: false
+              }
+            })
+
+            test('should return true', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: false })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(true)
+            })
+          })
+
+          describe('when searchable == TRUE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: false,
+                searchable: true
+              }
+            })
+
+            test('should return true', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: false })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(true)
+            })
+          })
+        })
+
+        describe('when isOpen == TRUE', () => {
+          describe('when searchable == FALSE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: true,
+                searchable: false
+              }
+            })
+
+            test('should return true', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: true })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(true)
+            })
+          })
+
+          describe('when searchable == TRUE', () => {
+            beforeEach(() => {
+              propsData = {
+                ...propsData,
+                isOpen: true,
+                searchable: true
+              }
+            })
+
+            test('should return false', () => {
+              const wrapper = shallowMount(Multiselect, {
+                propsData: { ...propsData }
+              })
+              wrapper.setData({ isOpen: true })
+              expect(wrapper.vm.isPlaceholderVisible).toEqual(false)
+            })
+          })
+        })
+      })
+    })
+  })
+
   describe('Preselecting values', () => {
     describe('when searchable == TRUE', () => {
       describe('when multiple == TRUE', () => {

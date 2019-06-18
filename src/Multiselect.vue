@@ -111,7 +111,7 @@
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
+                    <slot name="option" :option="option" :search="search" :is-selected="isSelected(option)" :select-fn="select" :customLabel="customLabel">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
@@ -154,6 +154,15 @@ export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
   props: {
+    /**
+     * Force the placeholder to be visible
+     * @default false
+     * @type {Boolean}
+     */
+    forcePlaceHolderVisible: {
+      type: Boolean,
+      default: false
+    },
     /**
      * name attribute to match optional label element
      * @default ''
@@ -300,7 +309,7 @@ export default {
       )
     },
     isPlaceholderVisible () {
-      return !this.internalValue.length && (!this.searchable || !this.isOpen)
+      return this.forcePlaceHolderVisible || (!this.internalValue.length && (!this.searchable || !this.isOpen))
     },
     visibleValues () {
       return this.multiple ? this.internalValue.slice(0, this.limit) : []
